@@ -1,7 +1,7 @@
 --PICO-8 Wrapper for the TIC-80 Computer
 --by @musurca
 ----------------------------------------
--- Wraps the PICO-8 API for use of porting games
+-- Wraps the PICO-8 API for ease of porting games
 -- to the TIC-80. Favors compatibility over performance.
 ----------------------------------------
 --known issues:
