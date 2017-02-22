@@ -1,2 +1,2 @@
 # pico2tic
-PICO-8 Wrapper for the TIC-80
+PICO-8 API Wrapper for the TIC-80 (0.18.0)
