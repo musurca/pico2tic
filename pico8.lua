@@ -5,7 +5,8 @@
 -- to the TIC-80. Favors compatibility over performance.
 ----------------------------------------
 --known issues:
--- * setting the screen palette (e.g. pal(a,b,1) ) doesn't work properly yet
+-- * swapping elements in the screen palette--e.g. pal(a,b,1)--doesn't work properly yet. However, pal(a,b) does work
+-- * flip_x and flip_y are currently ignored in spr() and sspr()
 -- * music() and flip() do nothing. sfx() does not take into account offset
 -- * stat(1) always returns "0.5"
 
