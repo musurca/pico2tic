@@ -1,6 +1,6 @@
 # pico2tic
 PICO-8 API Wrapper for the TIC-80 (0.18.0)
-by @musurca (nick dot musurca at gmail dot com)
+by <a href="http://www.twitter.com/musurca">@musurca</a> (nick dot musurca at gmail dot com)
 ----------------------------------------
 Wraps the PICO-8 API for ease of porting games to the TIC-80. Favors compatibility over performance.
 ----------------------------------------
