@@ -17,7 +17,6 @@ function PICO8_PALETTE()
 		poke4(0x3FC0*2+#__p8_pal-i,tonumber(__p8_pal:sub(i,i),16))
 	end	
 end
-PICO8_PALETTE()
 
 --sound
 __sfx=sfx
@@ -61,18 +60,33 @@ function dset(i,val)
 end
 
 --tables
-count=table.getn
-
 add=table.insert
 
+function all(list)
+  local i = 0
+  return function() i = i + 1; return list[i] end
+end
+
+count=table.getn
+
 function del(t,a)
- for i,v in ipairs(t) do
-	 if v==a then
-	  t[i]=t[#t]
-	  t[#t]=nil
+	for i,v in ipairs(t) do
+		if v==a then
+			t[i]=t[#t]
+			t[#t]=nil
 			return
 		end
 	end
+end
+
+function foreach(t, f)
+	for v in all(t) do
+		f(v)
+	end
+end
+
+if mt ~= nil then
+	mt = {}
 end
 
 --math
@@ -375,3 +389,59 @@ function fget(n,f)
 	if flags&(1<<f)>0 then return true end
 	return false
 end
+
+--input
+pico8ButtonMap = {}
+pico8ButtonMap[1] = 2 -- 0 left
+pico8ButtonMap[2] = 3 -- 1 right
+pico8ButtonMap[3] = 0 -- 2 up
+pico8ButtonMap[4] = 1 -- 3 down
+pico8ButtonMap[5] = 4 -- 4 o
+pico8ButtonMap[6] = 5 -- 5 x
+pico8ButtonMap[7] = 6 -- 6 start
+pico8ButtonMap[8] = 7 -- 7 Doesn't exist
+function pico8ButtonToTic80(i, p)
+	if p == nil then
+		p = 0
+	end
+	return p * 8 + pico8ButtonMap[i + 1]
+end
+__btn = btn
+function btn(i, p)
+	return __btn(pico8ButtonToTic80(i, p))
+end
+__btnp = btnp
+function btnp(i, p)
+	return __btnp(pico8ButtonToTic80(i, p))
+end
+
+-- TIC function to call pico-8 callbacks.
+__update30time = true
+__initalized = false
+function TIC()
+	-- Initialize
+	if __initalized == false then
+		PICO8_PALETTE()
+		if _init ~= nil then
+			_init()
+		end
+		__initalized = true
+	end
+
+	-- Update
+	if _update ~= nil then
+		_update()
+	elseif _update60 ~= nil then
+		_update60() -- 60 FPS
+	elseif _update30 ~= nil then
+		if __update30time then
+			_update30() -- 30 FPS
+		end
+		__update30time = not __update30time
+	end
+
+	-- Draw
+	if _draw ~= nil then _draw() end
+end
+
+-- Add pico-8 cart below!
