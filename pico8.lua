@@ -11,10 +11,15 @@
 -- * stat(1) always returns "0.5"
 
 --set palette
-__p8_pal="ffccaaff77a883769c29adff00e436ffec27ffa300ff004dfff1e8c2c3c75f574fab52360087517e25531d2b53000000"
+PAL_PICO8="0000001D2B537E2553008751AB52365F574FC2C3C7FFF1E8FF004DFFA300FFEC2700E43629ADFF83769CFF77A8FFCCAA"
 function PICO8_PALETTE()
-	for i=1,#__p8_pal do
-		poke4(0x3FC0*2+#__p8_pal-i,tonumber(__p8_pal:sub(i,i),16))
+	for i=0,15 do
+		local r=tonumber(string.sub(PAL_PICO8,i*6+1,i*6+2),16)
+		local g=tonumber(string.sub(PAL_PICO8,i*6+3,i*6+4),16)
+		local b=tonumber(string.sub(PAL_PICO8,i*6+5,i*6+6),16)
+		poke(0x3FC0+(i*3)+0,r)
+		poke(0x3FC0+(i*3)+1,g)
+		poke(0x3FC0+(i*3)+2,b)
 	end	
 end
 
