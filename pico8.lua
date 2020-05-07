@@ -421,7 +421,7 @@ function btnp(i, p)
 end
 
 -- TIC function to call pico-8 callbacks.
-__update30time = true
+__updateTick = true
 __initalized = false
 function TIC()
 	-- Initialize
@@ -433,20 +433,17 @@ function TIC()
 		__initalized = true
 	end
 
-	-- Update
-	if _update ~= nil then
-		_update()
-	elseif _update60 ~= nil then
-		_update60() -- 60 FPS
-	elseif _update30 ~= nil then
-		if __update30time then
-			_update30() -- 30 FPS
+	-- Update and Draw
+	if _update60 ~= nil then -- 60 FPS
+		_update60()
+		if _draw ~= nil then _draw() end
+	elseif _update ~= nil then -- 30 FPS
+		if __updateTick then
+			_update()
+			if _draw ~= nil then _draw() end
 		end
-		__update30time = not __update30time
+		__updateTick = not __updateTick
 	end
-
-	-- Draw
-	if _draw ~= nil then _draw() end
 end
 
 -- Add pico-8 cart below!
